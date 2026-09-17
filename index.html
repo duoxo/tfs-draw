@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tfs league phase draw</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #050505;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+    padding: 30px 20px 60px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 36px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #999999;
+    margin-top: 8px;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: 1px solid #444444;
+    border-radius: 7px;
+    padding: 13px 25px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.15s;
+    background: #ffffff;
+    color: #050505;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background: #dddddd;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#resetBtn {
+    background: #111111;
+    color: #ffffff;
+    border-color: #444444;
+}
+
+/* =========================
+   SELECTED TEAM
+========================= */
+
+.selected-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    margin-bottom: 25px;
+}
+
+.selected-label {
+    color: #777777;
+}
+
+.selected-name {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* =========================
+   POTS
+========================= */
+
+.pots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.pot {
+    background: #0d0d0d;
+    border: 1px solid #2b2b2b;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.pot-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   TEAM
+========================= */
+
+.team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #111111;
+    border: 1px solid #1f1f1f;
+    border-radius: 7px;
+    padding: 8px 9px;
+    margin-bottom: 7px;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s,
+        transform 0.15s;
+}
+
+.team:hover {
+    background: #1a1a1a;
+    border-color: #444444;
+    transform: translateX(2px);
+}
+
+.team.selected {
+    background: #1d1d1d;
+    border-color: #ffffff;
+}
+
+.team-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.team-logo-fallback {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #292929;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.team-name {
+    font-size: 14px;
+    font-weight: bold;
+    flex: 1;
+    line-height: 1.2;
+}
+
+/* Division badge */
+.division {
+    color: #ffffff;
+    background: #222222;
+    border: 1px solid #444444;
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   RESULTS
+========================= */
+
+.result {
+    display: none;
+    max-width: 850px;
+    margin: 38px auto 0;
+}
+
+.result-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.result-subtitle {
+    text-align: center;
+    color: #888888;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* =========================
+   DRAW STATUS
+========================= */
+
+.draw-status {
+    text-align: center;
+    color: #888888;
+    font-size: 14px;
+    margin: 10px 0 20px;
+    min-height: 20px;
+    transition: color 0.3s ease;
+}
+
+.draw-status.active {
+    color: #ffffff;
+}
+
+.draw-status.finished {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* =========================
+   FIXTURES
+========================= */
+
+.fixtures {
+    display: grid;
+    gap: 8px;
+}
+
+.fixture {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #101010;
+    border: 1px solid #2b2b2b;
+    border-radius: 8px;
+    padding: 12px 15px;
+}
+
+/* =========================
+   DRAW ANIMATION
+========================= */
+
+.fixture.revealing {
+    animation:
+        uefaFixtureReveal
+        0.65s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both;
+}
+
+@keyframes uefaFixtureReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+        filter: blur(3px);
+    }
+
+    55% {
+        opacity: 1;
+        transform: translateY(-1px) scale(1.01);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes resultHeaderAppear {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   FIXTURE LEFT
+========================= */
+
+.fixture-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.fixture-left .opponent {
+    min-width: 0;
+    white-space: nowrap;
+}
+
+.match-number {
+    width: 22px;
+    color: #555555;
+    font-size: 13px;
+}
+
+.opponent-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.opponent {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Division beside opponent */
+.opponent-division {
+    color: #ffffff;
+    background: #222222;
+    border: 1px solid #444444;
+    border-radius: 4px;
+    padding: 4px 7px;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.right-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pot-label {
+    color: #666666;
+    font-size: 12px;
+}
+
+/* HOME / AWAY */
+
+.location {
+    min-width: 60px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 6px 8px;
+    border-radius: 5px;
+}
+
+/* HOME = GREEN */
+.home {
+    color: #7CFF9B;
+    background: rgba(35, 150, 70, 0.20);
+    border: 1px solid #2f8f4e;
+}
+
+/* AWAY = RED */
+.away {
+    color: #ff7777;
+    background: rgba(180, 35, 35, 0.20);
+    border: 1px solid #a33a3a;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.info {
+    text-align: center;
+    color: #777777;
+    font-size: 13px;
+    margin-top: 18px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+    .pots {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .container {
+        padding: 20px 10px 40px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    .pots {
+        grid-template-columns: 1fr;
+    }
+
+    .opponent {
+        font-size: 14px;
+    }
+
+    .opponent-division {
+        font-size: 9px;
+    }
+
+    .division {
+        font-size: 9px;
+    }
+
+    .right-side {
+        gap: 6px;
+    }
+
+    .pot-label {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+    tfs league phase draw
+</h1>
+
+<div class="subtitle">
+    select a team and draw its league-phase opponents
+</div>
+
+<div class="controls">
+
+    <button id="drawBtn">
+        DRAW OPPONENTS
+    </button>
+
+    <button id="resetBtn">
+         NEW DRAW
+    </button>
+
+</div>
+
+<div class="selected-box">
+
+    <span class="selected-label">
+        Selected team:
+    </span>
+
+    <span
+        id="selectedName"
+        class="selected-name"
+    >
+        None
+    </span>
+
+</div>
+
+<div
+    id="pots"
+    class="pots"
+></div>
+
+<div
+    id="result"
+    class="result"
+></div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   LOGOS
+===================================================== */
+
+const LOGO = {
+
+    arsenal:
+        "https://media.api-sports.io/football/teams/42.png",
+
+    fiorentina:
+        "https://media.api-sports.io/football/teams/502.png",
+
+    lyon:
+        "https://media.api-sports.io/football/teams/80.png",
+
+    marseille:
+        "https://media.api-sports.io/football/teams/81.png",
+
+    realMadrid:
+        "https://media.api-sports.io/football/teams/541.png",
+
+    liverpool:
+        "https://media.api-sports.io/football/teams/40.png",
+
+    barcelona:
+        "https://media.api-sports.io/football/teams/529.png",
+
+    psg:
+        "https://media.api-sports.io/football/teams/85.png",
+
+    manUnited:
+        "https://media.api-sports.io/football/teams/33.png",
+
+    napoli:
+        "https://media.api-sports.io/football/teams/492.png",
+
+    manCity:
+        "https://media.api-sports.io/football/teams/50.png",
+
+    atletico:
+        "https://media.api-sports.io/football/teams/530.png",
+
+    leverkusen:
+        "https://media.api-sports.io/football/teams/168.png",
+
+    bayern:
+        "https://media.api-sports.io/football/teams/157.png",
+
+    juventus:
+        "https://media.api-sports.io/football/teams/496.png",
+
+    inter:
+        "https://media.api-sports.io/football/teams/505.png",
+
+    sporting:
+        "https://media.api-sports.io/football/teams/228.png",
+
+    porto:
+        "https://media.api-sports.io/football/teams/212.png",
+
+    bilbao:
+        "https://media.api-sports.io/football/teams/531.png",
+
+    lazio:
+        "https://media.api-sports.io/football/teams/487.png",
+
+    roma:
+        "https://media.api-sports.io/football/teams/497.png",
+
+    atalanta:
+        "https://media.api-sports.io/football/teams/499.png",
+
+    benfica:
+        "https://media.api-sports.io/football/teams/211.png",
+
+    monaco:
+        "https://media.api-sports.io/football/teams/91.png",
+
+    tottenham:
+        "https://media.api-sports.io/football/teams/47.png",
+
+    nottingham:
+        "https://media.api-sports.io/football/teams/65.png",
+
+    southampton:
+        "https://media.api-sports.io/football/teams/41.png",
+
+    dortmund:
+        "https://media.api-sports.io/football/teams/165.png",
+
+    newcastle:
+        "https://media.api-sports.io/football/teams/34.png",
+
+    wolves:
+        "https://media.api-sports.io/football/teams/39.png",
+
+    chelsea:
+        "https://media.api-sports.io/football/teams/49.png",
+
+    milan:
+        "https://media.api-sports.io/football/teams/489.png"
+};
+
+
+/* =====================================================
+   CLUB COLOURS
+===================================================== */
+
+const CLUB_COLORS = {
+
+    "Arsenal": "#e30613",
+    "Fiorentina": "#7b2cbf",
+    "Olympique Lyonnais": "#0066b3",
+    "Marseille": "#4bb3fd",
+    "Real Madrid": "#d4af37",
+    "Liverpool": "#c8102e",
+    "FC Barcelona": "#a50044",
+    "PSG": "#4da3ff",
+
+    "Manchester United": "#da291c",
+    "Napoli": "#00a5e5",
+    "Manchester City": "#6cabdd",
+    "Atlético de Madrid": "#e30613",
+    "Bayer Leverkusen": "#e32221",
+    "Bayern Munich": "#dc052d",
+    "Juventus": "#ffffff",
+    "Inter Milan": "#0068a8",
+
+    "Sporting CP": "#00a650",
+    "FC Porto": "#0066b3",
+    "Athletic Bilbao": "#ee1c25",
+    "Lazio": "#87ceeb",
+    "AS Roma": "#f4a300",
+    "Atalanta": "#0057b8",
+    "Benfica": "#e30613",
+    "AS Monaco": "#e30613",
+
+    "Tottenham Hotspur": "#132257",
+    "Nottingham Forest": "#e53233",
+    "Southampton": "#d71920",
+    "Borussia Dortmund": "#f7d117",
+    "Newcastle United": "#eeeeee",
+    "Wolverhampton Wanderers": "#fdb913",
+    "Chelsea": "#034694",
+    "AC Milan": "#e30613"
+};
+
+
+/* =====================================================
+   POTS
+===================================================== */
+
+const pots = [
+
+    [
+
+        {
+            name: "Arsenal",
+            logo: LOGO.arsenal,
+            division: "D1"
+        },
+
+        {
+            name: "Fiorentina",
+            logo: LOGO.fiorentina,
+            division: "D1"
+        },
+
+        {
+            name: "Olympique Lyonnais",
+            logo: LOGO.lyon,
+            division: "D2"
+        },
+
+        {
+            name: "Marseille",
+            logo: LOGO.marseille,
+            division: "D1"
+        },
+
+        {
+            name: "Real Madrid",
+            logo: LOGO.realMadrid,
+            division: "D2"
+        },
+
+        {
+            name: "Liverpool",
+            logo: LOGO.liverpool,
+            division: "D1"
+        },
+
+        {
+            name: "FC Barcelona",
+            logo: LOGO.barcelona,
+            division: "D2"
+        },
+
+        {
+            name: "PSG",
+            logo: LOGO.psg,
+            division: "D1"
+        }
+
+    ],
+
+    [
+
+        {
+            name: "Manchester United",
+            logo: LOGO.manUnited,
+            division: "D4"
+        },
+
+        {
+            name: "Napoli",
+            logo: LOGO.napoli,
+            division: "D4"
+        },
+
+        {
+            name: "Manchester City",
+            logo: LOGO.manCity,
+            division: "D2"
+        },
+
+        {
+            name: "Atlético de Madrid",
+            logo: LOGO.atletico,
+            division: "D2"
+        },
+
+        {
+            name: "Bayer Leverkusen",
+            logo: LOGO.leverkusen,
+            division: "D3"
+        },
+
+        {
+            name: "Bayern Munich",
+            logo: LOGO.bayern,
+            division: "D2"
+        },
+
+        {
+            name: "Juventus",
+            logo: LOGO.juventus,
+            division: "D4"
+        },
+
+        {
+            name: "Inter Milan",
+            logo: LOGO.inter,
+            division: "D4"
+        }
+
+    ],
+
+    [
+
+        {
+            name: "Sporting CP",
+            logo: LOGO.sporting,
+            division: "D4"
+        },
+
+        {
+            name: "FC Porto",
+            logo: LOGO.porto,
+            division: "D4"
+        },
+
+        {
+            name: "Athletic Bilbao",
+            logo: LOGO.bilbao,
+            division: "D4"
+        },
+
+        {
+            name: "Lazio",
+            logo: LOGO.lazio,
+            division: "D4"
+        },
+
+        {
+            name: "AS Roma",
+            logo: LOGO.roma,
+            division: "D3"
+        },
+
+        {
+            name: "Atalanta",
+            logo: LOGO.atalanta,
+            division: "D3"
+        },
+
+        {
+            name: "Benfica",
+            logo: LOGO.benfica,
+            division: "D3"
+        },
+
+        {
+            name: "AS Monaco",
+            logo: LOGO.monaco,
+            division: "D3"
+        }
+
+    ],
+
+    [
+
+        {
+            name: "Tottenham Hotspur",
+            logo: LOGO.tottenham,
+            division: "D3"
+        },
+
+        {
+            name: "Nottingham Forest",
+            logo: LOGO.nottingham,
+            division: "D3"
+        },
+
+        {
+            name: "Southampton",
+            logo: LOGO.southampton,
+            division: "D3"
+        },
+
+        {
+            name: "Borussia Dortmund",
+            logo: LOGO.dortmund,
+            division: "D2"
+        },
+
+        {
+            name: "Newcastle United",
+            logo: LOGO.newcastle,
+            division: "D2"
+        },
+
+        {
+            name: "Wolverhampton Wanderers",
+            logo: LOGO.wolves,
+            division: "D1"
+        },
+
+        {
+            name: "Chelsea",
+            logo: LOGO.chelsea,
+            division: "D1"
+        },
+
+        {
+            name: "AC Milan",
+            logo: LOGO.milan,
+            division: "D1"
+        }
+
+    ]
+
+];
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let teams = [];
+let selectedTeam = null;
+let drawGenerated = false;
+let drawInProgress = false;
+
+
+/* =====================================================
+   CREATE TEAMS
+===================================================== */
+
+function createTeams() {
+
+    teams = [];
+
+    for (let pot = 0; pot < 4; pot++) {
+
+        for (let index = 0; index < 8; index++) {
+
+            const data = pots[pot][index];
+
+            teams.push({
+
+                name: data.name,
+
+                logo: data.logo,
+
+                division: data.division,
+
+                color:
+                    CLUB_COLORS[data.name] ||
+                    "#ffffff",
+
+                pot: pot,
+
+                index: index,
+
+                fixtures: []
+
+            });
+        }
+    }
+}
+
+
+/* =====================================================
+   SHUFFLE
+===================================================== */
+
+function shuffle(array) {
+
+    const result = [...array];
+
+    for (let i = result.length - 1; i > 0; i--) {
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [
+            result[i],
+            result[j]
+        ] =
+        [
+            result[j],
+            result[i]
+        ];
+    }
+
+    return result;
+}
+
+
+/* =====================================================
+   FIND TEAM
+===================================================== */
+
+function findTeam(pot, index) {
+
+    return teams.find(
+        team =>
+            team.pot === pot &&
+            team.index === index
+    );
+}
+
+
+/* =====================================================
+   ADD FIXTURE
+===================================================== */
+
+function addFixture(
+    teamA,
+    teamB,
+    homeTeam
+) {
+
+    const aIsHome =
+        homeTeam === teamA;
+
+    teamA.fixtures.push({
+
+        opponent:
+            teamB.name,
+
+        opponentLogo:
+            teamB.logo,
+
+        opponentPot:
+            teamB.pot,
+
+        opponentDivision:
+            teamB.division,
+
+        opponentColor:
+            teamB.color,
+
+        home:
+            aIsHome
+    });
+
+    teamB.fixtures.push({
+
+        opponent:
+            teamA.name,
+
+        opponentLogo:
+            teamA.logo,
+
+        opponentPot:
+            teamA.pot,
+
+        opponentDivision:
+            teamA.division,
+
+        opponentColor:
+            teamA.color,
+
+        home:
+            !aIsHome
+    });
+}
+
+
+/* =====================================================
+   SAME POT DRAW
+===================================================== */
+
+function createSamePotDraw(potNumber) {
+
+    const order =
+        shuffle([
+            0, 1, 2, 3,
+            4, 5, 6, 7
+        ]);
+
+    for (let i = 0; i < 8; i++) {
+
+        const current =
+            findTeam(
+                potNumber,
+                order[i]
+            );
+
+        const next =
+            findTeam(
+                potNumber,
+                order[
+                    (i + 1) % 8
+                ]
+            );
+
+        addFixture(
+            current,
+            next,
+            current
+        );
+    }
+}
+
+
+/* =====================================================
+   CROSS POT DRAW
+===================================================== */
+
+function createCrossPotDraw(
+    potA,
+    potB
+) {
+
+    let first;
+    let second;
+
+    do {
+
+        first =
+            shuffle([
+                0, 1, 2, 3,
+                4, 5, 6, 7
+            ]);
+
+        second =
+            shuffle([
+                0, 1, 2, 3,
+                4, 5, 6, 7
+            ]);
+
+    } while (
+        first.some(
+            (value, index) =>
+                value === second[index]
+        )
+    );
+
+    /* Pot A HOME / Pot B AWAY */
+
+    for (let i = 0; i < 8; i++) {
+
+        const teamA =
+            findTeam(
+                potA,
+                i
+            );
+
+        const teamB =
+            findTeam(
+                potB,
+                first[i]
+            );
+
+        addFixture(
+            teamA,
+            teamB,
+            teamA
+        );
+    }
+
+    /* Pot A AWAY / Pot B HOME */
+
+    for (let i = 0; i < 8; i++) {
+
+        const teamA =
+            findTeam(
+                potA,
+                i
+            );
+
+        const teamB =
+            findTeam(
+                potB,
+                second[i]
+            );
+
+        addFixture(
+            teamA,
+            teamB,
+            teamB
+        );
+    }
+}
+
+
+/* =====================================================
+   VALIDATE DRAW
+===================================================== */
+
+function validateDraw() {
+
+    for (const team of teams) {
+
+        const counts = [
+            0,
+            0,
+            0,
+            0
+        ];
+
+        const opponents =
+            new Set();
+
+        for (const fixture of team.fixtures) {
+
+            counts[
+                fixture.opponentPot
+            ]++;
+
+            if (
+                opponents.has(
+                    fixture.opponent
+                )
+            ) {
+                return false;
+            }
+
+            opponents.add(
+                fixture.opponent
+            );
+        }
+
+        if (
+            counts[0] !== 2 ||
+            counts[1] !== 2 ||
+            counts[2] !== 2 ||
+            counts[3] !== 2
+        ) {
+            return false;
+        }
+
+        if (
+            team.fixtures.length !== 8
+        ) {
+            return false;
+        }
+
+        const homeCount =
+            team.fixtures.filter(
+                fixture =>
+                    fixture.home
+            ).length;
+
+        const awayCount =
+            team.fixtures.filter(
+                fixture =>
+                    !fixture.home
+            ).length;
+
+        if (
+            homeCount !== 4 ||
+            awayCount !== 4
+        ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+/* =====================================================
+   GENERATE DRAW
+===================================================== */
+
+function generateDraw() {
+
+    /*
+       Keep generating until
+       a completely valid draw
+       is produced.
+    */
+
+    let attempts = 0;
+
+    do {
+
+        createTeams();
+
+        for (let pot = 0; pot < 4; pot++) {
+
+            createSamePotDraw(
+                pot
+            );
+        }
+
+        for (let a = 0; a < 4; a++) {
+
+            for (let b = a + 1; b < 4; b++) {
+
+                createCrossPotDraw(
+                    a,
+                    b
+                );
+            }
+        }
+
+        attempts++;
+
+    } while (
+        !validateDraw() &&
+        attempts < 1000
+    );
+
+    if (!validateDraw()) {
+
+        console.error(
+            "Draw generation failed.",
+            teams
+        );
+
+        drawGenerated = false;
+
+        return false;
+    }
+
+    drawGenerated = true;
+
+    return true;
+}
+
+
+/* =====================================================
+   BUILD TEAM LIST
+===================================================== */
+
+function buildTeamList() {
+
+    const container =
+        document.getElementById(
+            "pots"
+        );
+
+    container.innerHTML = "";
+
+    for (let pot = 0; pot < 4; pot++) {
+
+        const potDiv =
+            document.createElement(
+                "div"
+            );
+
+        potDiv.className =
+            "pot";
+
+        const title =
+            document.createElement(
+                "div"
+            );
+
+        title.className =
+            "pot-title";
+
+        title.textContent =
+            `POT ${pot + 1}`;
+
+        potDiv.appendChild(
+            title
+        );
+
+        pots[pot].forEach(
+            (teamData, index) => {
+
+                const teamButton =
+                    document.createElement(
+                        "div"
+                    );
+
+                teamButton.className =
+                    "team";
+
+                teamButton.dataset.pot =
+                    pot;
+
+                teamButton.dataset.index =
+                    index;
+
+                const logo =
+                    document.createElement(
+                        "img"
+                    );
+
+                logo.className =
+                    "team-logo";
+
+                logo.src =
+                    teamData.logo;
+
+                logo.alt =
+                    teamData.name;
+
+                logo.onerror =
+                    function () {
+
+                        const fallback =
+                            document.createElement(
+                                "div"
+                            );
+
+                        fallback.className =
+                            "team-logo-fallback";
+
+                        fallback.textContent =
+                            getInitials(
+                                teamData.name
+                            );
+
+                        this.replaceWith(
+                            fallback
+                        );
+                    };
+
+                teamButton.appendChild(
+                    logo
+                );
+
+                const name =
+                    document.createElement(
+                        "span"
+                    );
+
+                name.className =
+                    "team-name";
+
+                name.textContent =
+                    teamData.name;
+
+                name.style.color =
+                    CLUB_COLORS[
+                        teamData.name
+                    ] ||
+                    "#ffffff";
+
+                teamButton.appendChild(
+                    name
+                );
+
+                /* Division badge */
+
+                const division =
+                    document.createElement(
+                        "span"
+                    );
+
+                division.className =
+                    "division";
+
+                division.textContent =
+                    teamData.division;
+
+                teamButton.appendChild(
+                    division
+                );
+
+                teamButton.addEventListener(
+                    "click",
+                    function () {
+
+                        if (
+                            drawInProgress
+                        ) {
+                            return;
+                        }
+
+                        selectTeam(
+                            pot,
+                            index
+                        );
+                    }
+                );
+
+                potDiv.appendChild(
+                    teamButton
+                );
+            }
+        );
+
+        container.appendChild(
+            potDiv
+        );
+    }
+}
+
+
+/* =====================================================
+   INITIALS
+===================================================== */
+
+function getInitials(name) {
+
+    return name
+        .split(" ")
+        .filter(
+            word =>
+                word.length > 0
+        )
+        .slice(0, 2)
+        .map(
+            word =>
+                word[0].toUpperCase()
+        )
+        .join("");
+}
+
+
+/* =====================================================
+   SELECT TEAM
+===================================================== */
+
+function selectTeam(
+    pot,
+    index
+) {
+
+    selectedTeam =
+        findTeam(
+            pot,
+            index
+        );
+
+    if (!selectedTeam) {
+        return;
+    }
+
+    document
+        .querySelectorAll(
+            ".team"
+        )
+        .forEach(
+            element => {
+
+                element.classList.remove(
+                    "selected"
+                );
+            }
+        );
+
+    const selectedElement =
+        document.querySelector(
+            `.team[data-pot="${pot}"][data-index="${index}"]`
+        );
+
+    if (selectedElement) {
+
+        selectedElement.classList.add(
+            "selected"
+        );
+    }
+
+    const selectedName =
+        document.getElementById(
+            "selectedName"
+        );
+
+    selectedName.textContent =
+        selectedTeam.name;
+
+    selectedName.style.color =
+        CLUB_COLORS[
+            selectedTeam.name
+        ] ||
+        "#ffffff";
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
+}
+
+
+/* =====================================================
+   WAIT
+===================================================== */
+
+function wait(milliseconds) {
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                milliseconds
+            )
+    );
+}
+
+
+/* =====================================================
+   DRAW SELECTED TEAM
+===================================================== */
+
+async function drawSelectedTeam() {
+
+    if (drawInProgress) {
+        return;
+    }
+
+    if (!selectedTeam) {
+
+        alert(
+            "Please select a team first."
+        );
+
+        return;
+    }
+
+    drawInProgress = true;
+
+    const drawButton =
+        document.getElementById(
+            "drawBtn"
+        );
+
+    drawButton.disabled = true;
+
+    const selectedPot =
+        selectedTeam.pot;
+
+    const selectedIndex =
+        selectedTeam.index;
+
+    const success =
+        generateDraw();
+
+    if (!success) {
+
+        const result =
+            document.getElementById(
+                "result"
+            );
+
+        result.innerHTML = `
+            <div class="result-title">
+                Draw Error
+            </div>
+
+            <div class="result-subtitle">
+                Unable to generate a valid
+                8-opponent draw.
+            </div>
+        `;
+
+        result.style.display =
+            "block";
+
+        drawInProgress = false;
+        drawButton.disabled = false;
+
+        return;
+    }
+
+    selectedTeam =
+        findTeam(
+            selectedPot,
+            selectedIndex
+        );
+
+    await showOpponents();
+
+    drawInProgress = false;
+
+    drawButton.disabled = false;
+}
+
+
+/* =====================================================
+   SHOW OPPONENTS
+===================================================== */
+
+async function showOpponents() {
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+    const byPot = {
+        0: [],
+        1: [],
+        2: [],
+        3: []
+    };
+
+    selectedTeam.fixtures.forEach(
+        fixture => {
+
+            byPot[
+                fixture.opponentPot
+            ].push(
+                fixture
+            );
+        }
+    );
+
+    const orderedFixtures = [];
+
+    for (let pot = 0; pot < 4; pot++) {
+
+        const fixtures =
+            byPot[pot];
+
+        const homes =
+            fixtures.filter(
+                fixture =>
+                    fixture.home === true
+            );
+
+        const aways =
+            fixtures.filter(
+                fixture =>
+                    fixture.home === false
+            );
+
+        if (
+            homes.length !== 1 ||
+            aways.length !== 1
+        ) {
+
+            console.error(
+                `Pot ${pot + 1} is invalid:`,
+                fixtures
+            );
+
+            result.innerHTML = `
+                <div class="result-title">
+                    Draw Error
+                </div>
+
+                <div class="result-subtitle">
+                    Pot ${pot + 1} did not contain
+                    exactly 2 opponents.
+                </div>
+            `;
+
+            result.style.display =
+                "block";
+
+            return;
+        }
+
+        orderedFixtures.push({
+            ...homes[0],
+            displayPot: pot
+        });
+
+        orderedFixtures.push({
+            ...aways[0],
+            displayPot: pot
+        });
+    }
+
+    if (
+        orderedFixtures.length !== 8
+    ) {
+
+        result.innerHTML = `
+            <div class="result-title">
+                Draw Error
+            </div>
+
+            <div class="result-subtitle">
+                The draw did not generate
+                exactly 8 opponents.
+            </div>
+        `;
+
+        result.style.display =
+            "block";
+
+        return;
+    }
+
+
+    /* RESULT HEADER */
+
+    result.innerHTML = `
+
+        <div
+            class="result-title"
+            style="
+                animation:
+                    resultHeaderAppear
+                    0.65s
+                    ease-out
+                    both;
+
+                color:
+                    ${
+                        CLUB_COLORS[
+                            selectedTeam.name
+                        ] ||
+                        "#ffffff"
+                    };
+            "
+        >
+            ${selectedTeam.name}
+        </div>
+
+        <div class="result-subtitle">
+            League Phase Opponents
+        </div>
+
+        <div
+            id="drawStatus"
+            class="draw-status active"
+        >
+            Preparing the draw...
+        </div>
+
+        <div
+            id="liveFixtures"
+            class="fixtures"
+        ></div>
+    `;
+
+    result.style.display =
+        "block";
+
+    result.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+
+    /* OPENING */
+
+    await wait(600);
+
+
+    /* DRAW POT BY POT */
+
+    for (let pot = 0; pot < 4; pot++) {
+
+        const status =
+            document.getElementById(
+                "drawStatus"
+            );
+
+        const potFixtures =
+            orderedFixtures.filter(
+                fixture =>
+                    fixture.displayPot === pot
+            );
+
+        status.textContent =
+            `Drawing Pot ${pot + 1}`;
+
+        await wait(400);
+
+
+        for (
+            let i = 0;
+            i < potFixtures.length;
+            i++
+        ) {
+
+            const fixture =
+                potFixtures[i];
+
+            status.textContent =
+                `Pot ${pot + 1} • ${
+                    fixture.home
+                        ? "HOME"
+                        : "AWAY"
+                } opponent`;
+
+            await wait(300);
+
+            const liveFixtures =
+                document.getElementById(
+                    "liveFixtures"
+                );
+
+            const fixtureElement =
+                document.createElement(
+                    "div"
+                );
+
+            fixtureElement.className =
+                "fixture revealing";
+
+
+            /*
+               Create the fixture.
+
+               Now the result shows:
+               - Opponent
+               - Division
+               - Pot
+               - HOME / AWAY
+            */
+
+            fixtureElement.innerHTML = `
+
+                <div class="fixture-left">
+
+                    <span class="match-number">
+                        ${
+                            liveFixtures
+                                .children
+                                .length + 1
+                        }
+                    </span>
+
+                    <img
+                        class="opponent-logo"
+                        src="${fixture.opponentLogo}"
+                        alt="${fixture.opponent}"
+                        onerror="
+                            this.style.display='none';
+                        "
+                    >
+
+                    <span
+                        class="opponent"
+                        style="
+                            color:
+                                ${
+                                    fixture.opponentColor ||
+                                    CLUB_COLORS[
+                                        fixture.opponent
+                                    ] ||
+                                    "#ffffff"
+                                };
+                        "
+                    >
+                        ${fixture.opponent}
+                    </span>
+
+                    <span class="opponent-division">
+                        ${fixture.opponentDivision}
+                    </span>
+
+                </div>
+
+
+                <div class="right-side">
+
+                    <span class="pot-label">
+                        Pot ${fixture.opponentPot + 1}
+                    </span>
+
+                    <span
+                        class="
+                            location
+                            ${
+                                fixture.home
+                                    ? "home"
+                                    : "away"
+                            }
+                        "
+                    >
+                        ${
+                            fixture.home
+                                ? "HOME"
+                                : "AWAY"
+                        }
+                    </span>
+
+                </div>
+            `;
+
+            liveFixtures.appendChild(
+                fixtureElement
+            );
+
+            await wait(500);
+        }
+
+        await wait(300);
+    }
+
+
+    /* DRAW COMPLETE */
+
+    const status =
+        document.getElementById(
+            "drawStatus"
+        );
+
+    status.classList.remove(
+        "active"
+    );
+
+    status.classList.add(
+        "finished"
+    );
+
+    status.textContent =
+        "✓ Draw complete";
+
+    await wait(300);
+
+
+    /* FINAL INFORMATION */
+
+    const info =
+        document.createElement(
+            "div"
+        );
+
+    info.className =
+        "info";
+
+    info.textContent =
+        "8 opponents • 2 from each pot • 4 HOME • 4 AWAY";
+
+    result.appendChild(
+        info
+    );
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetDraw() {
+
+    if (drawInProgress) {
+        return;
+    }
+
+    teams = [];
+    selectedTeam = null;
+    drawGenerated = false;
+
+    document
+        .querySelectorAll(
+            ".team"
+        )
+        .forEach(
+            element => {
+
+                element.classList.remove(
+                    "selected"
+                );
+            }
+        );
+
+    const selectedName =
+        document.getElementById(
+            "selectedName"
+        );
+
+    selectedName.textContent =
+        "None";
+
+    selectedName.style.color =
+        "#ffffff";
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
+
+    createTeams();
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+document
+    .getElementById(
+        "drawBtn"
+    )
+    .addEventListener(
+        "click",
+        drawSelectedTeam
+    );
+
+document
+    .getElementById(
+        "resetBtn"
+    )
+    .addEventListener(
+        "click",
+        resetDraw
+    );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+createTeams();
+buildTeamList();
+
+</script>
+
+</body>
+</html>
+```
