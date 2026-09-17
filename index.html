@@ -10,6 +10,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
@@ -24,10 +28,6 @@ body {
     padding: 30px 20px 60px;
 }
 
-/* =========================
-   HEADER
-========================= */
-
 h1 {
     text-align: center;
     margin: 0;
@@ -41,10 +41,6 @@ h1 {
     margin-top: 8px;
     margin-bottom: 25px;
 }
-
-/* =========================
-   BUTTONS
-========================= */
 
 .controls {
     display: flex;
@@ -83,10 +79,6 @@ button:disabled {
     border-color: #444444;
 }
 
-/* =========================
-   SELECTED TEAM
-========================= */
-
 .selected-box {
     display: flex;
     align-items: center;
@@ -105,10 +97,6 @@ button:disabled {
     font-size: 22px;
     font-weight: bold;
 }
-
-/* =========================
-   POTS
-========================= */
 
 .pots {
     display: grid;
@@ -131,10 +119,6 @@ button:disabled {
     margin-bottom: 12px;
     letter-spacing: 0.5px;
 }
-
-/* =========================
-   TEAM
-========================= */
 
 .team {
     display: flex;
@@ -191,7 +175,6 @@ button:disabled {
     line-height: 1.2;
 }
 
-/* Division badge */
 .division {
     color: #ffffff;
     background: #222222;
@@ -204,14 +187,11 @@ button:disabled {
     letter-spacing: 0.5px;
 }
 
-/* =========================
-   RESULTS
-========================= */
-
 .result {
     display: none;
     max-width: 850px;
     margin: 38px auto 0;
+    scroll-margin-top: 30px;
 }
 
 .result-title {
@@ -226,10 +206,6 @@ button:disabled {
     margin-top: 5px;
     margin-bottom: 15px;
 }
-
-/* =========================
-   DRAW STATUS
-========================= */
 
 .draw-status {
     text-align: center;
@@ -249,10 +225,6 @@ button:disabled {
     font-weight: bold;
 }
 
-/* =========================
-   FIXTURES
-========================= */
-
 .fixtures {
     display: grid;
     gap: 8px;
@@ -266,11 +238,8 @@ button:disabled {
     border: 1px solid #2b2b2b;
     border-radius: 8px;
     padding: 12px 15px;
+    scroll-margin-top: 80px;
 }
-
-/* =========================
-   DRAW ANIMATION
-========================= */
 
 .fixture.revealing {
     animation:
@@ -311,10 +280,6 @@ button:disabled {
     }
 }
 
-/* =========================
-   FIXTURE LEFT
-========================= */
-
 .fixture-left {
     display: flex;
     align-items: center;
@@ -345,7 +310,6 @@ button:disabled {
     font-weight: bold;
 }
 
-/* Division beside opponent */
 .opponent-division {
     color: #ffffff;
     background: #222222;
@@ -356,10 +320,6 @@ button:disabled {
     font-weight: bold;
     white-space: nowrap;
 }
-
-/* =========================
-   RIGHT SIDE
-========================= */
 
 .right-side {
     display: flex;
@@ -372,8 +332,6 @@ button:disabled {
     font-size: 12px;
 }
 
-/* HOME / AWAY */
-
 .location {
     min-width: 60px;
     text-align: center;
@@ -383,34 +341,25 @@ button:disabled {
     border-radius: 5px;
 }
 
-/* HOME = GREEN */
 .home {
     color: #7CFF9B;
     background: rgba(35, 150, 70, 0.20);
     border: 1px solid #2f8f4e;
 }
 
-/* AWAY = RED */
 .away {
     color: #ff7777;
     background: rgba(180, 35, 35, 0.20);
     border: 1px solid #a33a3a;
 }
 
-/* =========================
-   INFO
-========================= */
-
 .info {
     text-align: center;
     color: #777777;
     font-size: 13px;
     margin-top: 18px;
+    scroll-margin-top: 80px;
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 900px) {
     .pots {
@@ -458,58 +407,52 @@ button:disabled {
 
 <div class="container">
 
-<h1>
-    tfs league phase draw
-</h1>
+    <h1>tfs league phase draw</h1>
 
-<div class="subtitle">
-    select a team and draw its league-phase opponents
-</div>
+    <div class="subtitle">
+        select a team and draw its league-phase opponents
+    </div>
 
-<div class="controls">
+    <div class="controls">
 
-    <button id="drawBtn">
-        DRAW OPPONENTS
-    </button>
+        <button id="drawBtn">
+            DRAW OPPONENTS
+        </button>
 
-    <button id="resetBtn">
-         NEW DRAW
-    </button>
+        <button id="resetBtn">
+            NEW DRAW
+        </button>
 
-</div>
+    </div>
 
-<div class="selected-box">
+    <div class="selected-box">
 
-    <span class="selected-label">
-        Selected team:
-    </span>
+        <span class="selected-label">
+            Selected team:
+        </span>
 
-    <span
-        id="selectedName"
-        class="selected-name"
-    >
-        None
-    </span>
+        <span
+            id="selectedName"
+            class="selected-name"
+        >
+            None
+        </span>
 
-</div>
+    </div>
 
-<div
-    id="pots"
-    class="pots"
-></div>
+    <div
+        id="pots"
+        class="pots"
+    ></div>
 
-<div
-    id="result"
-    class="result"
-></div>
+    <div
+        id="result"
+        class="result"
+    ></div>
 
 </div>
 
 <script>
-
-/* =====================================================
-   LOGOS
-===================================================== */
 
 const LOGO = {
 
@@ -611,10 +554,6 @@ const LOGO = {
 };
 
 
-/* =====================================================
-   CLUB COLOURS
-===================================================== */
-
 const CLUB_COLORS = {
 
     "Arsenal": "#e30613",
@@ -655,236 +594,187 @@ const CLUB_COLORS = {
 };
 
 
-/* =====================================================
-   POTS
-===================================================== */
-
 const pots = [
 
     [
-
         {
             name: "Arsenal",
             logo: LOGO.arsenal,
             division: "D1"
         },
-
         {
             name: "Fiorentina",
             logo: LOGO.fiorentina,
             division: "D1"
         },
-
         {
             name: "Olympique Lyonnais",
             logo: LOGO.lyon,
             division: "D2"
         },
-
         {
             name: "Marseille",
             logo: LOGO.marseille,
             division: "D1"
         },
-
         {
             name: "Real Madrid",
             logo: LOGO.realMadrid,
             division: "D2"
         },
-
         {
             name: "Liverpool",
             logo: LOGO.liverpool,
             division: "D1"
         },
-
         {
             name: "FC Barcelona",
             logo: LOGO.barcelona,
             division: "D2"
         },
-
         {
             name: "PSG",
             logo: LOGO.psg,
             division: "D1"
         }
-
     ],
 
     [
-
         {
             name: "Manchester United",
             logo: LOGO.manUnited,
             division: "D4"
         },
-
         {
             name: "Napoli",
             logo: LOGO.napoli,
             division: "D4"
         },
-
         {
             name: "Manchester City",
             logo: LOGO.manCity,
             division: "D2"
         },
-
         {
             name: "Atlético de Madrid",
             logo: LOGO.atletico,
             division: "D2"
         },
-
         {
             name: "Bayer Leverkusen",
             logo: LOGO.leverkusen,
             division: "D3"
         },
-
         {
             name: "Bayern Munich",
             logo: LOGO.bayern,
             division: "D2"
         },
-
         {
             name: "Juventus",
             logo: LOGO.juventus,
             division: "D4"
         },
-
         {
             name: "Inter Milan",
             logo: LOGO.inter,
             division: "D4"
         }
-
     ],
 
     [
-
         {
             name: "Sporting CP",
             logo: LOGO.sporting,
             division: "D4"
         },
-
         {
             name: "FC Porto",
             logo: LOGO.porto,
             division: "D4"
         },
-
         {
             name: "Athletic Bilbao",
             logo: LOGO.bilbao,
             division: "D4"
         },
-
         {
             name: "Lazio",
             logo: LOGO.lazio,
             division: "D4"
         },
-
         {
             name: "AS Roma",
             logo: LOGO.roma,
             division: "D3"
         },
-
         {
             name: "Atalanta",
             logo: LOGO.atalanta,
             division: "D3"
         },
-
         {
             name: "Benfica",
             logo: LOGO.benfica,
             division: "D3"
         },
-
         {
             name: "AS Monaco",
             logo: LOGO.monaco,
             division: "D3"
         }
-
     ],
 
     [
-
         {
             name: "Tottenham Hotspur",
             logo: LOGO.tottenham,
             division: "D3"
         },
-
         {
             name: "Nottingham Forest",
             logo: LOGO.nottingham,
             division: "D3"
         },
-
         {
             name: "Southampton",
             logo: LOGO.southampton,
             division: "D3"
         },
-
         {
             name: "Borussia Dortmund",
             logo: LOGO.dortmund,
             division: "D2"
         },
-
         {
             name: "Newcastle United",
             logo: LOGO.newcastle,
             division: "D2"
         },
-
         {
             name: "Wolverhampton Wanderers",
             logo: LOGO.wolves,
             division: "D1"
         },
-
         {
             name: "Chelsea",
             logo: LOGO.chelsea,
             division: "D1"
         },
-
         {
             name: "AC Milan",
             logo: LOGO.milan,
             division: "D1"
         }
-
     ]
-
 ];
 
-
-/* =====================================================
-   VARIABLES
-===================================================== */
 
 let teams = [];
 let selectedTeam = null;
 let drawGenerated = false;
 let drawInProgress = false;
 
-
-/* =====================================================
-   CREATE TEAMS
-===================================================== */
 
 function createTeams() {
 
@@ -899,9 +789,7 @@ function createTeams() {
             teams.push({
 
                 name: data.name,
-
                 logo: data.logo,
-
                 division: data.division,
 
                 color:
@@ -909,26 +797,23 @@ function createTeams() {
                     "#ffffff",
 
                 pot: pot,
-
                 index: index,
-
                 fixtures: []
-
             });
         }
     }
 }
 
 
-/* =====================================================
-   SHUFFLE
-===================================================== */
-
 function shuffle(array) {
 
     const result = [...array];
 
-    for (let i = result.length - 1; i > 0; i--) {
+    for (
+        let i = result.length - 1;
+        i > 0;
+        i--
+    ) {
 
         const j =
             Math.floor(
@@ -938,8 +823,7 @@ function shuffle(array) {
         [
             result[i],
             result[j]
-        ] =
-        [
+        ] = [
             result[j],
             result[i]
         ];
@@ -948,10 +832,6 @@ function shuffle(array) {
     return result;
 }
 
-
-/* =====================================================
-   FIND TEAM
-===================================================== */
 
 function findTeam(pot, index) {
 
@@ -962,10 +842,6 @@ function findTeam(pot, index) {
     );
 }
 
-
-/* =====================================================
-   ADD FIXTURE
-===================================================== */
 
 function addFixture(
     teamA,
@@ -1020,10 +896,6 @@ function addFixture(
 }
 
 
-/* =====================================================
-   SAME POT DRAW
-===================================================== */
-
 function createSamePotDraw(potNumber) {
 
     const order =
@@ -1057,10 +929,6 @@ function createSamePotDraw(potNumber) {
 }
 
 
-/* =====================================================
-   CROSS POT DRAW
-===================================================== */
-
 function createCrossPotDraw(
     potA,
     potB
@@ -1090,7 +958,6 @@ function createCrossPotDraw(
         )
     );
 
-    /* Pot A HOME / Pot B AWAY */
 
     for (let i = 0; i < 8; i++) {
 
@@ -1113,7 +980,6 @@ function createCrossPotDraw(
         );
     }
 
-    /* Pot A AWAY / Pot B HOME */
 
     for (let i = 0; i < 8; i++) {
 
@@ -1138,19 +1004,12 @@ function createCrossPotDraw(
 }
 
 
-/* =====================================================
-   VALIDATE DRAW
-===================================================== */
-
 function validateDraw() {
 
     for (const team of teams) {
 
         const counts = [
-            0,
-            0,
-            0,
-            0
+            0, 0, 0, 0
         ];
 
         const opponents =
@@ -1214,17 +1073,7 @@ function validateDraw() {
 }
 
 
-/* =====================================================
-   GENERATE DRAW
-===================================================== */
-
 function generateDraw() {
-
-    /*
-       Keep generating until
-       a completely valid draw
-       is produced.
-    */
 
     let attempts = 0;
 
@@ -1241,7 +1090,11 @@ function generateDraw() {
 
         for (let a = 0; a < 4; a++) {
 
-            for (let b = a + 1; b < 4; b++) {
+            for (
+                let b = a + 1;
+                b < 4;
+                b++
+            ) {
 
                 createCrossPotDraw(
                     a,
@@ -1256,6 +1109,7 @@ function generateDraw() {
         !validateDraw() &&
         attempts < 1000
     );
+
 
     if (!validateDraw()) {
 
@@ -1274,10 +1128,6 @@ function generateDraw() {
     return true;
 }
 
-
-/* =====================================================
-   BUILD TEAM LIST
-===================================================== */
 
 function buildTeamList() {
 
@@ -1313,6 +1163,7 @@ function buildTeamList() {
             title
         );
 
+
         pots[pot].forEach(
             (teamData, index) => {
 
@@ -1329,6 +1180,7 @@ function buildTeamList() {
 
                 teamButton.dataset.index =
                     index;
+
 
                 const logo =
                     document.createElement(
@@ -1365,9 +1217,11 @@ function buildTeamList() {
                         );
                     };
 
+
                 teamButton.appendChild(
                     logo
                 );
+
 
                 const name =
                     document.createElement(
@@ -1390,7 +1244,6 @@ function buildTeamList() {
                     name
                 );
 
-                /* Division badge */
 
                 const division =
                     document.createElement(
@@ -1406,6 +1259,7 @@ function buildTeamList() {
                 teamButton.appendChild(
                     division
                 );
+
 
                 teamButton.addEventListener(
                     "click",
@@ -1424,11 +1278,13 @@ function buildTeamList() {
                     }
                 );
 
+
                 potDiv.appendChild(
                     teamButton
                 );
             }
         );
+
 
         container.appendChild(
             potDiv
@@ -1436,10 +1292,6 @@ function buildTeamList() {
     }
 }
 
-
-/* =====================================================
-   INITIALS
-===================================================== */
 
 function getInitials(name) {
 
@@ -1458,10 +1310,6 @@ function getInitials(name) {
 }
 
 
-/* =====================================================
-   SELECT TEAM
-===================================================== */
-
 function selectTeam(
     pot,
     index
@@ -1477,6 +1325,7 @@ function selectTeam(
         return;
     }
 
+
     document
         .querySelectorAll(
             ".team"
@@ -1490,10 +1339,12 @@ function selectTeam(
             }
         );
 
+
     const selectedElement =
         document.querySelector(
             `.team[data-pot="${pot}"][data-index="${index}"]`
         );
+
 
     if (selectedElement) {
 
@@ -1501,6 +1352,7 @@ function selectTeam(
             "selected"
         );
     }
+
 
     const selectedName =
         document.getElementById(
@@ -1516,16 +1368,13 @@ function selectTeam(
         ] ||
         "#ffffff";
 
+
     document.getElementById(
         "result"
     ).style.display =
         "none";
 }
 
-
-/* =====================================================
-   WAIT
-===================================================== */
 
 function wait(milliseconds) {
 
@@ -1538,10 +1387,6 @@ function wait(milliseconds) {
     );
 }
 
-
-/* =====================================================
-   DRAW SELECTED TEAM
-===================================================== */
 
 async function drawSelectedTeam() {
 
@@ -1558,6 +1403,7 @@ async function drawSelectedTeam() {
         return;
     }
 
+
     drawInProgress = true;
 
     const drawButton =
@@ -1567,14 +1413,17 @@ async function drawSelectedTeam() {
 
     drawButton.disabled = true;
 
+
     const selectedPot =
         selectedTeam.pot;
 
     const selectedIndex =
         selectedTeam.index;
 
+
     const success =
         generateDraw();
+
 
     if (!success) {
 
@@ -1603,23 +1452,22 @@ async function drawSelectedTeam() {
         return;
     }
 
+
     selectedTeam =
         findTeam(
             selectedPot,
             selectedIndex
         );
 
+
     await showOpponents();
+
 
     drawInProgress = false;
 
     drawButton.disabled = false;
 }
 
-
-/* =====================================================
-   SHOW OPPONENTS
-===================================================== */
 
 async function showOpponents() {
 
@@ -1628,12 +1476,14 @@ async function showOpponents() {
             "result"
         );
 
+
     const byPot = {
         0: [],
         1: [],
         2: [],
         3: []
     };
+
 
     selectedTeam.fixtures.forEach(
         fixture => {
@@ -1646,7 +1496,9 @@ async function showOpponents() {
         }
     );
 
+
     const orderedFixtures = [];
+
 
     for (let pot = 0; pot < 4; pot++) {
 
@@ -1664,6 +1516,7 @@ async function showOpponents() {
                 fixture =>
                     fixture.home === false
             );
+
 
         if (
             homes.length !== 1 ||
@@ -1692,6 +1545,7 @@ async function showOpponents() {
             return;
         }
 
+
         orderedFixtures.push({
             ...homes[0],
             displayPot: pot
@@ -1702,6 +1556,7 @@ async function showOpponents() {
             displayPot: pot
         });
     }
+
 
     if (
         orderedFixtures.length !== 8
@@ -1724,8 +1579,6 @@ async function showOpponents() {
         return;
     }
 
-
-    /* RESULT HEADER */
 
     result.innerHTML = `
 
@@ -1767,21 +1620,27 @@ async function showOpponents() {
         ></div>
     `;
 
+
     result.style.display =
         "block";
 
-    result.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+
+    /*
+        Immediately bring the results
+        into view.
+    */
+    requestAnimationFrame(() => {
+
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
     });
 
 
-    /* OPENING */
+    await wait(700);
 
-    await wait(600);
-
-
-    /* DRAW POT BY POT */
 
     for (let pot = 0; pot < 4; pot++) {
 
@@ -1790,14 +1649,17 @@ async function showOpponents() {
                 "drawStatus"
             );
 
+
         const potFixtures =
             orderedFixtures.filter(
                 fixture =>
                     fixture.displayPot === pot
             );
 
+
         status.textContent =
             `Drawing Pot ${pot + 1}`;
+
 
         await wait(400);
 
@@ -1811,6 +1673,7 @@ async function showOpponents() {
             const fixture =
                 potFixtures[i];
 
+
             status.textContent =
                 `Pot ${pot + 1} • ${
                     fixture.home
@@ -1818,31 +1681,25 @@ async function showOpponents() {
                         : "AWAY"
                 } opponent`;
 
+
             await wait(300);
+
 
             const liveFixtures =
                 document.getElementById(
                     "liveFixtures"
                 );
 
+
             const fixtureElement =
                 document.createElement(
                     "div"
                 );
 
+
             fixtureElement.className =
                 "fixture revealing";
 
-
-            /*
-               Create the fixture.
-
-               Now the result shows:
-               - Opponent
-               - Division
-               - Pot
-               - HOME / AWAY
-            */
 
             fixtureElement.innerHTML = `
 
@@ -1914,23 +1771,57 @@ async function showOpponents() {
                 </div>
             `;
 
+
             liveFixtures.appendChild(
                 fixtureElement
             );
 
-            await wait(500);
+
+            /*
+                IMPORTANT:
+
+                After every opponent appears,
+                automatically move the browser
+                so the newest opponent is visible.
+            */
+
+            await new Promise(
+                requestAnimationFrame
+            );
+
+
+            const targetPosition =
+                fixtureElement.getBoundingClientRect().top +
+                window.scrollY -
+                100;
+
+
+            window.scrollTo({
+
+                top:
+                    Math.max(
+                        0,
+                        targetPosition
+                    ),
+
+                behavior:
+                    "smooth"
+            });
+
+
+            await wait(750);
         }
+
 
         await wait(300);
     }
 
 
-    /* DRAW COMPLETE */
-
     const status =
         document.getElementById(
             "drawStatus"
         );
+
 
     status.classList.remove(
         "active"
@@ -1943,31 +1834,51 @@ async function showOpponents() {
     status.textContent =
         "✓ Draw complete";
 
+
     await wait(300);
 
-
-    /* FINAL INFORMATION */
 
     const info =
         document.createElement(
             "div"
         );
 
+
     info.className =
         "info";
+
 
     info.textContent =
         "8 opponents • 2 from each pot • 4 HOME • 4 AWAY";
 
+
     result.appendChild(
         info
     );
+
+
+    /*
+        Final automatic scroll so the
+        completed draw is visible.
+    */
+
+    await new Promise(
+        requestAnimationFrame
+    );
+
+
+    window.scrollTo({
+
+        top:
+            info.getBoundingClientRect().top +
+            window.scrollY -
+            100,
+
+        behavior:
+            "smooth"
+    });
 }
 
-
-/* =====================================================
-   RESET
-===================================================== */
 
 function resetDraw() {
 
@@ -1975,9 +1886,13 @@ function resetDraw() {
         return;
     }
 
+
     teams = [];
+
     selectedTeam = null;
+
     drawGenerated = false;
+
 
     document
         .querySelectorAll(
@@ -1992,10 +1907,12 @@ function resetDraw() {
             }
         );
 
+
     const selectedName =
         document.getElementById(
             "selectedName"
         );
+
 
     selectedName.textContent =
         "None";
@@ -2003,18 +1920,24 @@ function resetDraw() {
     selectedName.style.color =
         "#ffffff";
 
+
     document.getElementById(
         "result"
     ).style.display =
         "none";
 
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+    });
+
+
     createTeams();
 }
 
-
-/* =====================================================
-   BUTTONS
-===================================================== */
 
 document
     .getElementById(
@@ -2024,6 +1947,7 @@ document
         "click",
         drawSelectedTeam
     );
+
 
 document
     .getElementById(
@@ -2035,15 +1959,11 @@ document
     );
 
 
-/* =====================================================
-   START
-===================================================== */
-
 createTeams();
+
 buildTeamList();
 
 </script>
 
 </body>
 </html>
-```
