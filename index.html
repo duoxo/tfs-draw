@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tfs league phase draw</title>
+<title>TFS League Phase Draw</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -41,6 +43,40 @@ h1 {
     margin-top: 8px;
     margin-bottom: 25px;
 }
+
+/* TABS */
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.tab-button {
+    background: #111111;
+    color: #888888;
+    border: 1px solid #2b2b2b;
+    border-radius: 7px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.tab-button:hover {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.tab-button.active {
+    background: #ffffff;
+    color: #050505;
+    border-color: #ffffff;
+}
+
+/* CONTROLS */
 
 .controls {
     display: flex;
@@ -79,6 +115,18 @@ button:disabled {
     border-color: #444444;
 }
 
+/* TABS CONTENT */
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* SELECTED TEAM */
+
 .selected-box {
     display: flex;
     align-items: center;
@@ -97,6 +145,8 @@ button:disabled {
     font-size: 22px;
     font-weight: bold;
 }
+
+/* POTS */
 
 .pots {
     display: grid;
@@ -184,8 +234,9 @@ button:disabled {
     font-size: 10px;
     font-weight: bold;
     white-space: nowrap;
-    letter-spacing: 0.5px;
 }
+
+/* DRAW RESULT */
 
 .result {
     display: none;
@@ -358,16 +409,191 @@ button:disabled {
     color: #777777;
     font-size: 13px;
     margin-top: 18px;
-    scroll-margin-top: 80px;
 }
 
+/* =========================================
+   FIXTURES TAB - ACCORDION
+========================================= */
+
+.fixture-teams {
+    display: grid;
+    gap: 8px;
+    max-width: 850px;
+    margin: 0 auto 25px;
+}
+
+.fixture-team {
+    width: 100%;
+    background: #101010;
+    border: 1px solid #2b2b2b;
+    border-radius: 9px;
+    overflow: hidden;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+
+.fixture-team:hover {
+    border-color: #555555;
+}
+
+.fixture-team.open {
+    border-color: #ffffff;
+    background: #101010;
+}
+
+/* CLICKABLE TEAM HEADER */
+
+.fixture-team-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 13px 15px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.fixture-team-header:hover {
+    background: #181818;
+}
+
+.fixture-team-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.fixture-team-name {
+    font-size: 16px;
+    font-weight: bold;
+    flex: 1;
+    text-align: left;
+}
+
+.fixture-team-count {
+    color: #777777;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.fixture-team-arrow {
+    width: 20px;
+    color: #777777;
+    font-size: 15px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.fixture-team.open .fixture-team-arrow {
+    transform: rotate(180deg);
+    color: #ffffff;
+}
+
+/* FIXTURES UNDER THE TEAM */
+
+.fixture-team-details {
+    display: none;
+    padding: 0 10px 10px;
+    border-top: 1px solid #252525;
+}
+
+.fixture-team.open .fixture-team-details {
+    display: block;
+}
+
+/* MATCH CARD */
+
+.match-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: #101010;
+    border: 1px solid #2b2b2b;
+    border-radius: 9px;
+    padding: 12px 16px;
+    margin-top: 8px;
+    min-height: 72px;
+}
+
+.match-team {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+    width: auto;
+}
+
+.match-team.home-team {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.match-team.away-team {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.match-team img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.match-team span {
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.vs {
+    color: #777777;
+    font-size: 12px;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin: 0 2px;
+    white-space: nowrap;
+}
+
+.empty-fixtures {
+    text-align: center;
+    color: #666666;
+    background: #0d0d0d;
+    border: 1px solid #222222;
+    border-radius: 10px;
+    padding: 35px 20px;
+}
+
+.fixtures-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.fixtures-header h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.fixtures-header p {
+    color: #777777;
+    margin: 7px 0 0;
+}
+
+/* MOBILE */
+
 @media (max-width: 900px) {
+
     .pots {
         grid-template-columns: repeat(2, 1fr);
     }
+
 }
 
 @media (max-width: 550px) {
+
     .container {
         padding: 20px 10px 40px;
     }
@@ -399,7 +625,60 @@ button:disabled {
     .pot-label {
         display: none;
     }
+
+    .fixture-team-header {
+        padding: 11px 10px;
+        gap: 9px;
+    }
+
+    .fixture-team-logo {
+        width: 32px;
+        height: 32px;
+    }
+
+    .fixture-team-name {
+        font-size: 14px;
+    }
+
+    .fixture-team-count {
+        font-size: 10px;
+    }
+
+    .fixture-team-arrow {
+        width: 16px;
+        font-size: 13px;
+    }
+
+    .fixture-team-details {
+        padding: 0 6px 6px;
+    }
+
+    .match-card {
+        gap: 6px;
+        padding: 10px 6px;
+    }
+
+    .match-team {
+        gap: 6px;
+    }
+
+    .match-team span {
+        font-size: 11px;
+        white-space: normal;
+    }
+
+    .match-team img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .vs {
+        font-size: 10px;
+        margin: 0;
+    }
+
 }
+
 </style>
 </head>
 
@@ -413,46 +692,105 @@ button:disabled {
         select a team and draw its league-phase opponents
     </div>
 
-    <div class="controls">
+    <!-- TABS -->
 
-        <button id="drawBtn">
-            DRAW OPPONENTS
-        </button>
+    <div class="tabs">
 
-        <button id="resetBtn">
-            NEW DRAW
-        </button>
-
-    </div>
-
-    <div class="selected-box">
-
-        <span class="selected-label">
-            Selected team:
-        </span>
-
-        <span
-            id="selectedName"
-            class="selected-name"
+        <button
+            id="drawTabBtn"
+            class="tab-button active"
+            onclick="switchTab('draw')"
         >
-            None
-        </span>
+            DRAW
+        </button>
+
+        <button
+            id="fixturesTabBtn"
+            class="tab-button"
+            onclick="switchTab('fixtures')"
+        >
+            FIXTURES
+        </button>
 
     </div>
 
-    <div
-        id="pots"
-        class="pots"
-    ></div>
+    <!-- DRAW TAB -->
 
     <div
-        id="result"
-        class="result"
-    ></div>
+        id="drawTab"
+        class="tab-content active"
+    >
+
+        <div class="controls">
+
+            <button id="drawBtn">
+                DRAW OPPONENTS
+            </button>
+
+            <button id="resetBtn">
+                NEW DRAW
+            </button>
+
+        </div>
+
+        <div class="selected-box">
+
+            <span class="selected-label">
+                Selected team:
+            </span>
+
+            <span
+                id="selectedName"
+                class="selected-name"
+            >
+                None
+            </span>
+
+        </div>
+
+        <div
+            id="pots"
+            class="pots"
+        ></div>
+
+        <div
+            id="result"
+            class="result"
+        ></div>
+
+    </div>
+
+    <!-- FIXTURES TAB -->
+
+    <div
+        id="fixturesTab"
+        class="tab-content"
+    >
+
+        <div class="fixtures-header">
+
+            <h2>Fixtures</h2>
+
+            <p>
+                Click a team to open or close its revealed fixtures
+            </p>
+
+        </div>
+
+        <div
+            id="drawnTeams"
+            class="fixture-teams"
+        ></div>
+
+    </div>
 
 </div>
 
 <script>
+
+/* =========================
+   LOGOS
+========================= */
 
 const LOGO = {
 
@@ -551,8 +889,13 @@ const LOGO = {
 
     milan:
         "https://media.api-sports.io/football/teams/489.png"
+
 };
 
+
+/* =========================
+   CLUB COLOURS
+========================= */
 
 const CLUB_COLORS = {
 
@@ -591,190 +934,91 @@ const CLUB_COLORS = {
     "Wolverhampton Wanderers": "#fdb913",
     "Chelsea": "#034694",
     "AC Milan": "#e30613"
+
 };
 
+
+/* =========================
+   POTS
+========================= */
 
 const pots = [
 
     [
-        {
-            name: "Arsenal",
-            logo: LOGO.arsenal,
-            division: "D1"
-        },
-        {
-            name: "Fiorentina",
-            logo: LOGO.fiorentina,
-            division: "D1"
-        },
-        {
-            name: "Olympique Lyonnais",
-            logo: LOGO.lyon,
-            division: "D2"
-        },
-        {
-            name: "Marseille",
-            logo: LOGO.marseille,
-            division: "D1"
-        },
-        {
-            name: "Real Madrid",
-            logo: LOGO.realMadrid,
-            division: "D2"
-        },
-        {
-            name: "Liverpool",
-            logo: LOGO.liverpool,
-            division: "D1"
-        },
-        {
-            name: "FC Barcelona",
-            logo: LOGO.barcelona,
-            division: "D2"
-        },
-        {
-            name: "PSG",
-            logo: LOGO.psg,
-            division: "D1"
-        }
+
+        { name: "Arsenal", logo: LOGO.arsenal, division: "D1" },
+        { name: "Fiorentina", logo: LOGO.fiorentina, division: "D1" },
+        { name: "Olympique Lyonnais", logo: LOGO.lyon, division: "D2" },
+        { name: "Marseille", logo: LOGO.marseille, division: "D1" },
+        { name: "Real Madrid", logo: LOGO.realMadrid, division: "D2" },
+        { name: "Liverpool", logo: LOGO.liverpool, division: "D1" },
+        { name: "FC Barcelona", logo: LOGO.barcelona, division: "D2" },
+        { name: "PSG", logo: LOGO.psg, division: "D1" }
+
     ],
 
     [
-        {
-            name: "Manchester United",
-            logo: LOGO.manUnited,
-            division: "D4"
-        },
-        {
-            name: "Napoli",
-            logo: LOGO.napoli,
-            division: "D4"
-        },
-        {
-            name: "Manchester City",
-            logo: LOGO.manCity,
-            division: "D2"
-        },
-        {
-            name: "Atlético de Madrid",
-            logo: LOGO.atletico,
-            division: "D2"
-        },
-        {
-            name: "Bayer Leverkusen",
-            logo: LOGO.leverkusen,
-            division: "D3"
-        },
-        {
-            name: "Bayern Munich",
-            logo: LOGO.bayern,
-            division: "D2"
-        },
-        {
-            name: "Juventus",
-            logo: LOGO.juventus,
-            division: "D4"
-        },
-        {
-            name: "Inter Milan",
-            logo: LOGO.inter,
-            division: "D4"
-        }
+
+        { name: "Manchester United", logo: LOGO.manUnited, division: "D4" },
+        { name: "Napoli", logo: LOGO.napoli, division: "D4" },
+        { name: "Manchester City", logo: LOGO.manCity, division: "D2" },
+        { name: "Atlético de Madrid", logo: LOGO.atletico, division: "D2" },
+        { name: "Bayer Leverkusen", logo: LOGO.leverkusen, division: "D3" },
+        { name: "Bayern Munich", logo: LOGO.bayern, division: "D2" },
+        { name: "Juventus", logo: LOGO.juventus, division: "D4" },
+        { name: "Inter Milan", logo: LOGO.inter, division: "D4" }
+
     ],
 
     [
-        {
-            name: "Sporting CP",
-            logo: LOGO.sporting,
-            division: "D4"
-        },
-        {
-            name: "FC Porto",
-            logo: LOGO.porto,
-            division: "D4"
-        },
-        {
-            name: "Athletic Bilbao",
-            logo: LOGO.bilbao,
-            division: "D4"
-        },
-        {
-            name: "Lazio",
-            logo: LOGO.lazio,
-            division: "D4"
-        },
-        {
-            name: "AS Roma",
-            logo: LOGO.roma,
-            division: "D3"
-        },
-        {
-            name: "Atalanta",
-            logo: LOGO.atalanta,
-            division: "D3"
-        },
-        {
-            name: "Benfica",
-            logo: LOGO.benfica,
-            division: "D3"
-        },
-        {
-            name: "AS Monaco",
-            logo: LOGO.monaco,
-            division: "D3"
-        }
+
+        { name: "Sporting CP", logo: LOGO.sporting, division: "D4" },
+        { name: "FC Porto", logo: LOGO.porto, division: "D4" },
+        { name: "Athletic Bilbao", logo: LOGO.bilbao, division: "D4" },
+        { name: "Lazio", logo: LOGO.lazio, division: "D4" },
+        { name: "AS Roma", logo: LOGO.roma, division: "D3" },
+        { name: "Atalanta", logo: LOGO.atalanta, division: "D3" },
+        { name: "Benfica", logo: LOGO.benfica, division: "D3" },
+        { name: "AS Monaco", logo: LOGO.monaco, division: "D3" }
+
     ],
 
     [
-        {
-            name: "Tottenham Hotspur",
-            logo: LOGO.tottenham,
-            division: "D3"
-        },
-        {
-            name: "Nottingham Forest",
-            logo: LOGO.nottingham,
-            division: "D3"
-        },
-        {
-            name: "Southampton",
-            logo: LOGO.southampton,
-            division: "D3"
-        },
-        {
-            name: "Borussia Dortmund",
-            logo: LOGO.dortmund,
-            division: "D2"
-        },
-        {
-            name: "Newcastle United",
-            logo: LOGO.newcastle,
-            division: "D2"
-        },
-        {
-            name: "Wolverhampton Wanderers",
-            logo: LOGO.wolves,
-            division: "D1"
-        },
-        {
-            name: "Chelsea",
-            logo: LOGO.chelsea,
-            division: "D1"
-        },
-        {
-            name: "AC Milan",
-            logo: LOGO.milan,
-            division: "D1"
-        }
+
+        { name: "Tottenham Hotspur", logo: LOGO.tottenham, division: "D3" },
+        { name: "Nottingham Forest", logo: LOGO.nottingham, division: "D3" },
+        { name: "Southampton", logo: LOGO.southampton, division: "D3" },
+        { name: "Borussia Dortmund", logo: LOGO.dortmund, division: "D2" },
+        { name: "Newcastle United", logo: LOGO.newcastle, division: "D2" },
+        { name: "Wolverhampton Wanderers", logo: LOGO.wolves, division: "D1" },
+        { name: "Chelsea", logo: LOGO.chelsea, division: "D1" },
+        { name: "AC Milan", logo: LOGO.milan, division: "D1" }
+
     ]
+
 ];
 
 
+/* =========================
+   STATE
+========================= */
+
 let teams = [];
+
 let selectedTeam = null;
+
 let drawGenerated = false;
+
 let drawInProgress = false;
 
+let revealedFixtures = new Map();
+
+let activeFixtureTeam = null;
+
+
+/* =========================
+   TEAM CREATION
+========================= */
 
 function createTeams() {
 
@@ -789,7 +1033,9 @@ function createTeams() {
             teams.push({
 
                 name: data.name,
+
                 logo: data.logo,
+
                 division: data.division,
 
                 color:
@@ -797,23 +1043,29 @@ function createTeams() {
                     "#ffffff",
 
                 pot: pot,
+
                 index: index,
+
                 fixtures: []
+
             });
+
         }
+
     }
+
 }
 
+
+/* =========================
+   HELPERS
+========================= */
 
 function shuffle(array) {
 
     const result = [...array];
 
-    for (
-        let i = result.length - 1;
-        i > 0;
-        i--
-    ) {
+    for (let i = result.length - 1; i > 0; i--) {
 
         const j =
             Math.floor(
@@ -827,9 +1079,11 @@ function shuffle(array) {
             result[j],
             result[i]
         ];
+
     }
 
     return result;
+
 }
 
 
@@ -840,8 +1094,42 @@ function findTeam(pot, index) {
             team.pot === pot &&
             team.index === index
     );
+
 }
 
+
+function getTeamId(team) {
+
+    return `${team.pot}-${team.index}`;
+
+}
+
+
+function getInitials(name) {
+
+    return name
+        .split(" ")
+        .filter(word => word.length > 0)
+        .slice(0, 2)
+        .map(word => word[0].toUpperCase())
+        .join("");
+
+}
+
+
+function wait(milliseconds) {
+
+    return new Promise(
+        resolve =>
+            setTimeout(resolve, milliseconds)
+    );
+
+}
+
+
+/* =========================
+   FIXTURE GENERATION
+========================= */
 
 function addFixture(
     teamA,
@@ -854,45 +1142,36 @@ function addFixture(
 
     teamA.fixtures.push({
 
-        opponent:
-            teamB.name,
+        opponent: teamB.name,
 
-        opponentLogo:
-            teamB.logo,
+        opponentLogo: teamB.logo,
 
-        opponentPot:
-            teamB.pot,
+        opponentPot: teamB.pot,
 
-        opponentDivision:
-            teamB.division,
+        opponentDivision: teamB.division,
 
-        opponentColor:
-            teamB.color,
+        opponentColor: teamB.color,
 
-        home:
-            aIsHome
+        home: aIsHome
+
     });
 
     teamB.fixtures.push({
 
-        opponent:
-            teamA.name,
+        opponent: teamA.name,
 
-        opponentLogo:
-            teamA.logo,
+        opponentLogo: teamA.logo,
 
-        opponentPot:
-            teamA.pot,
+        opponentPot: teamA.pot,
 
-        opponentDivision:
-            teamA.division,
+        opponentDivision: teamA.division,
 
-        opponentColor:
-            teamA.color,
+        opponentColor: teamA.color,
 
-        home:
-            !aIsHome
+        home: !aIsHome
+
     });
+
 }
 
 
@@ -915,9 +1194,7 @@ function createSamePotDraw(potNumber) {
         const next =
             findTeam(
                 potNumber,
-                order[
-                    (i + 1) % 8
-                ]
+                order[(i + 1) % 8]
             );
 
         addFixture(
@@ -925,7 +1202,9 @@ function createSamePotDraw(potNumber) {
             next,
             current
         );
+
     }
+
 }
 
 
@@ -935,6 +1214,7 @@ function createCrossPotDraw(
 ) {
 
     let first;
+
     let second;
 
     do {
@@ -952,12 +1232,13 @@ function createCrossPotDraw(
             ]);
 
     } while (
+
         first.some(
             (value, index) =>
                 value === second[index]
         )
-    );
 
+    );
 
     for (let i = 0; i < 8; i++) {
 
@@ -978,8 +1259,8 @@ function createCrossPotDraw(
             teamB,
             teamA
         );
-    }
 
+    }
 
     for (let i = 0; i < 8; i++) {
 
@@ -1000,38 +1281,42 @@ function createCrossPotDraw(
             teamB,
             teamB
         );
+
     }
+
 }
 
+
+/* =========================
+   VALIDATION
+========================= */
 
 function validateDraw() {
 
     for (const team of teams) {
 
-        const counts = [
-            0, 0, 0, 0
-        ];
+        const counts = [0, 0, 0, 0];
 
-        const opponents =
-            new Set();
+        const opponents = new Set();
 
         for (const fixture of team.fixtures) {
 
-            counts[
-                fixture.opponentPot
-            ]++;
+            counts[fixture.opponentPot]++;
 
             if (
                 opponents.has(
                     fixture.opponent
                 )
             ) {
+
                 return false;
+
             }
 
             opponents.add(
                 fixture.opponent
             );
+
         }
 
         if (
@@ -1040,36 +1325,40 @@ function validateDraw() {
             counts[2] !== 2 ||
             counts[3] !== 2
         ) {
+
             return false;
+
         }
 
-        if (
-            team.fixtures.length !== 8
-        ) {
+        if (team.fixtures.length !== 8) {
+
             return false;
+
         }
 
         const homeCount =
             team.fixtures.filter(
-                fixture =>
-                    fixture.home
+                fixture => fixture.home
             ).length;
 
         const awayCount =
             team.fixtures.filter(
-                fixture =>
-                    !fixture.home
+                fixture => !fixture.home
             ).length;
 
         if (
             homeCount !== 4 ||
             awayCount !== 4
         ) {
+
             return false;
+
         }
+
     }
 
     return true;
+
 }
 
 
@@ -1083,24 +1372,21 @@ function generateDraw() {
 
         for (let pot = 0; pot < 4; pot++) {
 
-            createSamePotDraw(
-                pot
-            );
+            createSamePotDraw(pot);
+
         }
 
         for (let a = 0; a < 4; a++) {
 
-            for (
-                let b = a + 1;
-                b < 4;
-                b++
-            ) {
+            for (let b = a + 1; b < 4; b++) {
 
                 createCrossPotDraw(
                     a,
                     b
                 );
+
             }
+
         }
 
         attempts++;
@@ -1109,7 +1395,6 @@ function generateDraw() {
         !validateDraw() &&
         attempts < 1000
     );
-
 
     if (!validateDraw()) {
 
@@ -1121,115 +1406,187 @@ function generateDraw() {
         drawGenerated = false;
 
         return false;
+
     }
 
     drawGenerated = true;
 
     return true;
+
 }
 
+
+/* =========================
+   REVEAL FIXTURES
+========================= */
+
+function addRevealedFixture(
+    team,
+    fixture
+) {
+
+    const teamId =
+        getTeamId(team);
+
+    if (!revealedFixtures.has(teamId)) {
+
+        revealedFixtures.set(
+            teamId,
+            []
+        );
+
+    }
+
+    const existing =
+        revealedFixtures.get(teamId);
+
+    const alreadyExists =
+        existing.some(
+            item =>
+                item.opponent === fixture.opponent &&
+                item.home === fixture.home
+        );
+
+    if (!alreadyExists) {
+
+        existing.push({
+            ...fixture
+        });
+
+    }
+
+}
+
+
+function revealTeamFixtures(team) {
+
+    for (const fixture of team.fixtures) {
+
+        /*
+            The selected team sees all 8
+            of its own fixtures.
+        */
+
+        addRevealedFixture(
+            team,
+            fixture
+        );
+
+
+        /*
+            The opponent only sees the one
+            fixture involving the selected team.
+        */
+
+        const opponent =
+            teams.find(
+                item =>
+                    item.name ===
+                    fixture.opponent
+            );
+
+        if (!opponent) {
+            continue;
+        }
+
+        addRevealedFixture(
+            opponent,
+            {
+
+                opponent: team.name,
+
+                opponentLogo: team.logo,
+
+                opponentPot: team.pot,
+
+                opponentDivision: team.division,
+
+                opponentColor: team.color,
+
+                home: !fixture.home
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================
+   BUILD TEAM LIST
+========================= */
 
 function buildTeamList() {
 
     const container =
-        document.getElementById(
-            "pots"
-        );
+        document.getElementById("pots");
 
     container.innerHTML = "";
 
     for (let pot = 0; pot < 4; pot++) {
 
         const potDiv =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
-        potDiv.className =
-            "pot";
+        potDiv.className = "pot";
 
         const title =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
-        title.className =
-            "pot-title";
+        title.className = "pot-title";
 
         title.textContent =
             `POT ${pot + 1}`;
 
-        potDiv.appendChild(
-            title
-        );
-
+        potDiv.appendChild(title);
 
         pots[pot].forEach(
             (teamData, index) => {
 
                 const teamButton =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
-                teamButton.className =
-                    "team";
+                teamButton.className = "team";
 
-                teamButton.dataset.pot =
-                    pot;
+                teamButton.dataset.pot = pot;
 
-                teamButton.dataset.index =
-                    index;
-
+                teamButton.dataset.index = index;
 
                 const logo =
-                    document.createElement(
-                        "img"
+                    document.createElement("img");
+
+                logo.className = "team-logo";
+
+                logo.src = teamData.logo;
+
+                logo.alt = teamData.name;
+
+                logo.onerror = function () {
+
+                    const fallback =
+                        document.createElement("div");
+
+                    fallback.className =
+                        "team-logo-fallback";
+
+                    fallback.textContent =
+                        getInitials(
+                            teamData.name
+                        );
+
+                    this.replaceWith(
+                        fallback
                     );
 
-                logo.className =
-                    "team-logo";
+                };
 
-                logo.src =
-                    teamData.logo;
-
-                logo.alt =
-                    teamData.name;
-
-                logo.onerror =
-                    function () {
-
-                        const fallback =
-                            document.createElement(
-                                "div"
-                            );
-
-                        fallback.className =
-                            "team-logo-fallback";
-
-                        fallback.textContent =
-                            getInitials(
-                                teamData.name
-                            );
-
-                        this.replaceWith(
-                            fallback
-                        );
-                    };
-
-
-                teamButton.appendChild(
-                    logo
-                );
-
+                teamButton.appendChild(logo);
 
                 const name =
-                    document.createElement(
-                        "span"
-                    );
+                    document.createElement("span");
 
-                name.className =
-                    "team-name";
+                name.className = "team-name";
 
                 name.textContent =
                     teamData.name;
@@ -1237,37 +1594,25 @@ function buildTeamList() {
                 name.style.color =
                     CLUB_COLORS[
                         teamData.name
-                    ] ||
-                    "#ffffff";
+                    ] || "#ffffff";
 
-                teamButton.appendChild(
-                    name
-                );
-
+                teamButton.appendChild(name);
 
                 const division =
-                    document.createElement(
-                        "span"
-                    );
+                    document.createElement("span");
 
-                division.className =
-                    "division";
+                division.className = "division";
 
                 division.textContent =
                     teamData.division;
 
-                teamButton.appendChild(
-                    division
-                );
-
+                teamButton.appendChild(division);
 
                 teamButton.addEventListener(
                     "click",
                     function () {
 
-                        if (
-                            drawInProgress
-                        ) {
+                        if (drawInProgress) {
                             return;
                         }
 
@@ -1275,40 +1620,29 @@ function buildTeamList() {
                             pot,
                             index
                         );
+
                     }
                 );
-
 
                 potDiv.appendChild(
                     teamButton
                 );
+
             }
         );
-
 
         container.appendChild(
             potDiv
         );
+
     }
+
 }
 
 
-function getInitials(name) {
-
-    return name
-        .split(" ")
-        .filter(
-            word =>
-                word.length > 0
-        )
-        .slice(0, 2)
-        .map(
-            word =>
-                word[0].toUpperCase()
-        )
-        .join("");
-}
-
+/* =========================
+   SELECT TEAM
+========================= */
 
 function selectTeam(
     pot,
@@ -1325,34 +1659,28 @@ function selectTeam(
         return;
     }
 
-
     document
-        .querySelectorAll(
-            ".team"
-        )
-        .forEach(
-            element => {
+        .querySelectorAll(".team")
+        .forEach(element => {
 
-                element.classList.remove(
-                    "selected"
-                );
-            }
-        );
+            element.classList.remove(
+                "selected"
+            );
 
+        });
 
     const selectedElement =
         document.querySelector(
             `.team[data-pot="${pot}"][data-index="${index}"]`
         );
 
-
     if (selectedElement) {
 
         selectedElement.classList.add(
             "selected"
         );
-    }
 
+    }
 
     const selectedName =
         document.getElementById(
@@ -1365,28 +1693,18 @@ function selectTeam(
     selectedName.style.color =
         CLUB_COLORS[
             selectedTeam.name
-        ] ||
-        "#ffffff";
-
+        ] || "#ffffff";
 
     document.getElementById(
         "result"
-    ).style.display =
-        "none";
+    ).style.display = "none";
+
 }
 
 
-function wait(milliseconds) {
-
-    return new Promise(
-        resolve =>
-            setTimeout(
-                resolve,
-                milliseconds
-            )
-    );
-}
-
+/* =========================
+   DRAW SELECTED TEAM
+========================= */
 
 async function drawSelectedTeam() {
 
@@ -1401,8 +1719,8 @@ async function drawSelectedTeam() {
         );
 
         return;
-    }
 
+    }
 
     drawInProgress = true;
 
@@ -1414,60 +1732,77 @@ async function drawSelectedTeam() {
     drawButton.disabled = true;
 
 
-    const selectedPot =
-        selectedTeam.pot;
+    if (!drawGenerated) {
 
-    const selectedIndex =
-        selectedTeam.index;
+        const success =
+            generateDraw();
 
+        if (!success) {
 
-    const success =
-        generateDraw();
+            const result =
+                document.getElementById(
+                    "result"
+                );
 
+            result.innerHTML = `
 
-    if (!success) {
+                <div class="result-title">
+                    Draw Error
+                </div>
 
-        const result =
-            document.getElementById(
-                "result"
-            );
+                <div class="result-subtitle">
+                    Unable to generate a valid
+                    8-opponent draw.
+                </div>
 
-        result.innerHTML = `
-            <div class="result-title">
-                Draw Error
-            </div>
+            `;
 
-            <div class="result-subtitle">
-                Unable to generate a valid
-                8-opponent draw.
-            </div>
-        `;
+            result.style.display = "block";
 
-        result.style.display =
-            "block";
+            drawInProgress = false;
 
-        drawInProgress = false;
-        drawButton.disabled = false;
+            drawButton.disabled = false;
 
-        return;
+            return;
+
+        }
+
     }
 
 
     selectedTeam =
         findTeam(
-            selectedPot,
-            selectedIndex
+            selectedTeam.pot,
+            selectedTeam.index
         );
 
 
     await showOpponents();
 
 
+    /*
+        Reveal the selected team's 8 fixtures
+        and one reciprocal fixture to every
+        opponent.
+    */
+
+    revealTeamFixtures(
+        selectedTeam
+    );
+
+    updateFixturesTab();
+
+
     drawInProgress = false;
 
     drawButton.disabled = false;
+
 }
 
+
+/* =========================
+   SHOW OPPONENTS
+========================= */
 
 async function showOpponents() {
 
@@ -1476,29 +1811,26 @@ async function showOpponents() {
             "result"
         );
 
-
     const byPot = {
+
         0: [],
         1: [],
         2: [],
         3: []
-    };
 
+    };
 
     selectedTeam.fixtures.forEach(
         fixture => {
 
             byPot[
                 fixture.opponentPot
-            ].push(
-                fixture
-            );
+            ].push(fixture);
+
         }
     );
 
-
     const orderedFixtures = [];
-
 
     for (let pot = 0; pot < 4; pot++) {
 
@@ -1517,18 +1849,13 @@ async function showOpponents() {
                     fixture.home === false
             );
 
-
         if (
             homes.length !== 1 ||
             aways.length !== 1
         ) {
 
-            console.error(
-                `Pot ${pot + 1} is invalid:`,
-                fixtures
-            );
-
             result.innerHTML = `
+
                 <div class="result-title">
                     Draw Error
                 </div>
@@ -1537,46 +1864,31 @@ async function showOpponents() {
                     Pot ${pot + 1} did not contain
                     exactly 2 opponents.
                 </div>
+
             `;
 
-            result.style.display =
-                "block";
+            result.style.display = "block";
 
             return;
+
         }
 
-
         orderedFixtures.push({
+
             ...homes[0],
+
             displayPot: pot
+
         });
 
         orderedFixtures.push({
+
             ...aways[0],
+
             displayPot: pot
+
         });
-    }
 
-
-    if (
-        orderedFixtures.length !== 8
-    ) {
-
-        result.innerHTML = `
-            <div class="result-title">
-                Draw Error
-            </div>
-
-            <div class="result-subtitle">
-                The draw did not generate
-                exactly 8 opponents.
-            </div>
-        `;
-
-        result.style.display =
-            "block";
-
-        return;
     }
 
 
@@ -1590,13 +1902,11 @@ async function showOpponents() {
                     0.65s
                     ease-out
                     both;
-
                 color:
                     ${
                         CLUB_COLORS[
                             selectedTeam.name
-                        ] ||
-                        "#ffffff"
+                        ] || "#ffffff"
                     };
             "
         >
@@ -1618,26 +1928,22 @@ async function showOpponents() {
             id="liveFixtures"
             class="fixtures"
         ></div>
+
     `;
 
+    result.style.display = "block";
 
-    result.style.display =
-        "block";
-
-
-    /*
-        Immediately bring the results
-        into view.
-    */
     requestAnimationFrame(() => {
 
         result.scrollIntoView({
+
             behavior: "smooth",
+
             block: "start"
+
         });
 
     });
-
 
     await wait(700);
 
@@ -1649,17 +1955,14 @@ async function showOpponents() {
                 "drawStatus"
             );
 
-
         const potFixtures =
             orderedFixtures.filter(
                 fixture =>
                     fixture.displayPot === pot
             );
 
-
         status.textContent =
             `Drawing Pot ${pot + 1}`;
-
 
         await wait(400);
 
@@ -1673,7 +1976,6 @@ async function showOpponents() {
             const fixture =
                 potFixtures[i];
 
-
             status.textContent =
                 `Pot ${pot + 1} • ${
                     fixture.home
@@ -1681,25 +1983,20 @@ async function showOpponents() {
                         : "AWAY"
                 } opponent`;
 
-
             await wait(300);
-
 
             const liveFixtures =
                 document.getElementById(
                     "liveFixtures"
                 );
 
-
             const fixtureElement =
                 document.createElement(
                     "div"
                 );
 
-
             fixtureElement.className =
                 "fixture revealing";
-
 
             fixtureElement.innerHTML = `
 
@@ -1744,7 +2041,6 @@ async function showOpponents() {
 
                 </div>
 
-
                 <div class="right-side">
 
                     <span class="pot-label">
@@ -1769,32 +2065,21 @@ async function showOpponents() {
                     </span>
 
                 </div>
-            `;
 
+            `;
 
             liveFixtures.appendChild(
                 fixtureElement
             );
 
-
-            /*
-                IMPORTANT:
-
-                After every opponent appears,
-                automatically move the browser
-                so the newest opponent is visible.
-            */
-
             await new Promise(
                 requestAnimationFrame
             );
-
 
             const targetPosition =
                 fixtureElement.getBoundingClientRect().top +
                 window.scrollY -
                 100;
-
 
             window.scrollTo({
 
@@ -1804,16 +2089,16 @@ async function showOpponents() {
                         targetPosition
                     ),
 
-                behavior:
-                    "smooth"
+                behavior: "smooth"
+
             });
 
-
             await wait(750);
+
         }
 
-
         await wait(300);
+
     }
 
 
@@ -1821,7 +2106,6 @@ async function showOpponents() {
         document.getElementById(
             "drawStatus"
         );
-
 
     status.classList.remove(
         "active"
@@ -1834,7 +2118,6 @@ async function showOpponents() {
     status.textContent =
         "✓ Draw complete";
 
-
     await wait(300);
 
 
@@ -1843,42 +2126,636 @@ async function showOpponents() {
             "div"
         );
 
-
-    info.className =
-        "info";
-
+    info.className = "info";
 
     info.textContent =
         "8 opponents • 2 from each pot • 4 HOME • 4 AWAY";
 
-
-    result.appendChild(
-        info
-    );
-
-
-    /*
-        Final automatic scroll so the
-        completed draw is visible.
-    */
+    result.appendChild(info);
 
     await new Promise(
         requestAnimationFrame
     );
 
-
     window.scrollTo({
 
         top:
             info.getBoundingClientRect().top +
-            window.scrollY -
-            100,
+            window.scrollY - 100,
 
-        behavior:
-            "smooth"
+        behavior: "smooth"
+
     });
+
 }
 
+
+/* =========================
+   FIXTURES TAB
+   ACCORDION
+========================= */
+
+function updateFixturesTab() {
+
+    const container =
+        document.getElementById(
+            "drawnTeams"
+        );
+
+    container.innerHTML = "";
+
+    /*
+        Nothing is automatically opened.
+    */
+
+    activeFixtureTeam = null;
+
+
+    if (revealedFixtures.size === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-fixtures">
+
+                No fixtures have been revealed yet.
+
+                <br><br>
+
+                Go to the DRAW tab and draw
+                a team first.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+        Every team with at least one
+        revealed fixture becomes an
+        accordion item.
+    */
+
+    for (
+        const [teamId, fixtures]
+        of revealedFixtures
+    ) {
+
+        if (!fixtures || fixtures.length === 0) {
+            continue;
+        }
+
+        const team =
+            teams.find(
+                item =>
+                    getTeamId(item) === teamId
+            );
+
+        if (!team) {
+            continue;
+        }
+
+
+        /*
+            MAIN ACCORDION CONTAINER
+        */
+
+        const teamElement =
+            document.createElement(
+                "div"
+            );
+
+        teamElement.className =
+            "fixture-team";
+
+        teamElement.dataset.teamId =
+            teamId;
+
+
+        /*
+            CLICKABLE HEADER
+        */
+
+        const header =
+            document.createElement(
+                "div"
+            );
+
+        header.className =
+            "fixture-team-header";
+
+
+        /*
+            LOGO
+        */
+
+        const logo =
+            document.createElement(
+                "img"
+            );
+
+        logo.className =
+            "fixture-team-logo";
+
+        logo.src =
+            team.logo;
+
+        logo.alt =
+            team.name;
+
+        logo.onerror = function () {
+
+            const fallback =
+                document.createElement(
+                    "div"
+                );
+
+            fallback.className =
+                "team-logo-fallback";
+
+            fallback.textContent =
+                getInitials(
+                    team.name
+                );
+
+            this.replaceWith(
+                fallback
+            );
+
+        };
+
+        header.appendChild(
+            logo
+        );
+
+
+        /*
+            TEAM NAME
+        */
+
+        const name =
+            document.createElement(
+                "span"
+            );
+
+        name.className =
+            "fixture-team-name";
+
+        name.textContent =
+            team.name;
+
+        name.style.color =
+            team.color;
+
+        header.appendChild(
+            name
+        );
+
+
+        /*
+            FIXTURE COUNT
+        */
+
+        const count =
+            document.createElement(
+                "span"
+            );
+
+        count.className =
+            "fixture-team-count";
+
+        count.textContent =
+            `${fixtures.length} ${
+                fixtures.length === 1
+                    ? "fixture"
+                    : "fixtures"
+            }`;
+
+        header.appendChild(
+            count
+        );
+
+
+        /*
+            ARROW
+        */
+
+        const arrow =
+            document.createElement(
+                "span"
+            );
+
+        arrow.className =
+            "fixture-team-arrow";
+
+        arrow.textContent =
+            "▼";
+
+        header.appendChild(
+            arrow
+        );
+
+
+        teamElement.appendChild(
+            header
+        );
+
+
+        /*
+            FIXTURE DETAILS.
+
+            IMPORTANT:
+            These are placed INSIDE the
+            team element, directly below
+            that team.
+        */
+
+        const fixtureDetails =
+            document.createElement(
+                "div"
+            );
+
+        fixtureDetails.className =
+            "fixture-team-details";
+
+
+        fixtures.forEach(
+            fixture => {
+
+                const matchCard =
+                    createMatchCard(
+                        team,
+                        fixture
+                    );
+
+                fixtureDetails.appendChild(
+                    matchCard
+                );
+
+            }
+        );
+
+
+        teamElement.appendChild(
+            fixtureDetails
+        );
+
+
+        /*
+            OPEN / CLOSE
+        */
+
+        header.addEventListener(
+            "click",
+            () => {
+
+                toggleTeamFixtures(
+                    team,
+                    teamElement
+                );
+
+            }
+        );
+
+
+        container.appendChild(
+            teamElement
+        );
+
+    }
+
+}
+
+
+/* =========================
+   CREATE MATCH CARD
+========================= */
+
+function createMatchCard(
+    team,
+    fixture
+) {
+
+    const matchCard =
+        document.createElement(
+            "div"
+        );
+
+    matchCard.className =
+        "match-card";
+
+
+    /*
+        SELECTED TEAM
+    */
+
+    const teamSide =
+        document.createElement(
+            "div"
+        );
+
+    teamSide.className =
+        "match-team " +
+        (
+            fixture.home
+                ? "home-team"
+                : "away-team"
+        );
+
+
+    const teamName =
+        document.createElement(
+            "span"
+        );
+
+    teamName.textContent =
+        team.name;
+
+    teamName.style.color =
+        team.color;
+
+
+    const teamLogo =
+        document.createElement(
+            "img"
+        );
+
+    teamLogo.src =
+        team.logo;
+
+    teamLogo.alt =
+        team.name;
+
+    teamLogo.onerror =
+        function () {
+
+            this.style.display =
+                "none";
+
+        };
+
+
+    teamSide.appendChild(
+        teamName
+    );
+
+    teamSide.appendChild(
+        teamLogo
+    );
+
+
+    /*
+        VS
+    */
+
+    const vs =
+        document.createElement(
+            "span"
+        );
+
+    vs.className =
+        "vs";
+
+    vs.textContent =
+        "VS";
+
+
+    /*
+        OPPONENT
+    */
+
+    const opponentSide =
+        document.createElement(
+            "div"
+        );
+
+    opponentSide.className =
+        "match-team " +
+        (
+            fixture.home
+                ? "away-team"
+                : "home-team"
+        );
+
+
+    const opponentLogo =
+        document.createElement(
+            "img"
+        );
+
+    opponentLogo.src =
+        fixture.opponentLogo;
+
+    opponentLogo.alt =
+        fixture.opponent;
+
+    opponentLogo.onerror =
+        function () {
+
+            const fallback =
+                document.createElement(
+                    "div"
+                );
+
+            fallback.className =
+                "team-logo-fallback";
+
+            fallback.textContent =
+                getInitials(
+                    fixture.opponent
+                );
+
+            this.replaceWith(
+                fallback
+            );
+
+        };
+
+
+    const opponentName =
+        document.createElement(
+            "span"
+        );
+
+    opponentName.textContent =
+        fixture.opponent;
+
+    opponentName.style.color =
+        fixture.opponentColor ||
+        "#ffffff";
+
+
+    opponentSide.appendChild(
+        opponentLogo
+    );
+
+    opponentSide.appendChild(
+        opponentName
+    );
+
+
+    /*
+        BUILD MATCH
+    */
+
+    matchCard.appendChild(
+        teamSide
+    );
+
+    matchCard.appendChild(
+        vs
+    );
+
+    matchCard.appendChild(
+        opponentSide
+    );
+
+
+    return matchCard;
+
+}
+
+
+/* =========================
+   OPEN / CLOSE TEAM
+========================= */
+
+function toggleTeamFixtures(
+    team,
+    teamElement
+) {
+
+    const wasOpen =
+        teamElement.classList.contains(
+            "open"
+        );
+
+
+    /*
+        Close every team first.
+    */
+
+    document
+        .querySelectorAll(
+            ".fixture-team"
+        )
+        .forEach(element => {
+
+            element.classList.remove(
+                "open"
+            );
+
+        });
+
+
+    activeFixtureTeam = null;
+
+
+    /*
+        If the clicked team was closed,
+        open it.
+
+        If it was already open,
+        leave everything closed.
+    */
+
+    if (!wasOpen) {
+
+        teamElement.classList.add(
+            "open"
+        );
+
+        activeFixtureTeam =
+            team;
+
+    }
+
+}
+
+
+/* =========================
+   TAB SWITCHING
+========================= */
+
+function switchTab(tab) {
+
+    const drawTab =
+        document.getElementById(
+            "drawTab"
+        );
+
+    const fixturesTab =
+        document.getElementById(
+            "fixturesTab"
+        );
+
+    const drawTabBtn =
+        document.getElementById(
+            "drawTabBtn"
+        );
+
+    const fixturesTabBtn =
+        document.getElementById(
+            "fixturesTabBtn"
+        );
+
+
+    if (tab === "draw") {
+
+        drawTab.classList.add(
+            "active"
+        );
+
+        fixturesTab.classList.remove(
+            "active"
+        );
+
+        drawTabBtn.classList.add(
+            "active"
+        );
+
+        fixturesTabBtn.classList.remove(
+            "active"
+        );
+
+    } else {
+
+        drawTab.classList.remove(
+            "active"
+        );
+
+        fixturesTab.classList.add(
+            "active"
+        );
+
+        drawTabBtn.classList.remove(
+            "active"
+        );
+
+        fixturesTabBtn.classList.add(
+            "active"
+        );
+
+
+        /*
+            Rebuild the accordion.
+
+            Nothing opens automatically.
+        */
+
+        updateFixturesTab();
+
+    }
+
+}
+
+
+/* =========================
+   RESET
+========================= */
 
 function resetDraw() {
 
@@ -1886,33 +2763,32 @@ function resetDraw() {
         return;
     }
 
-
     teams = [];
 
     selectedTeam = null;
 
     drawGenerated = false;
 
+    revealedFixtures.clear();
+
+    activeFixtureTeam = null;
+
 
     document
-        .querySelectorAll(
-            ".team"
-        )
-        .forEach(
-            element => {
+        .querySelectorAll(".team")
+        .forEach(element => {
 
-                element.classList.remove(
-                    "selected"
-                );
-            }
-        );
+            element.classList.remove(
+                "selected"
+            );
+
+        });
 
 
     const selectedName =
         document.getElementById(
             "selectedName"
         );
-
 
     selectedName.textContent =
         "None";
@@ -1923,8 +2799,13 @@ function resetDraw() {
 
     document.getElementById(
         "result"
-    ).style.display =
-        "none";
+    ).style.display = "none";
+
+
+    updateFixturesTab();
+
+
+    switchTab("draw");
 
 
     window.scrollTo({
@@ -1932,36 +2813,45 @@ function resetDraw() {
         top: 0,
 
         behavior: "smooth"
+
     });
 
 
     createTeams();
+
+    buildTeamList();
+
 }
 
 
+/* =========================
+   BUTTON EVENTS
+========================= */
+
 document
-    .getElementById(
-        "drawBtn"
-    )
+    .getElementById("drawBtn")
     .addEventListener(
         "click",
         drawSelectedTeam
     );
 
-
 document
-    .getElementById(
-        "resetBtn"
-    )
+    .getElementById("resetBtn")
     .addEventListener(
         "click",
         resetDraw
     );
 
 
+/* =========================
+   INITIAL LOAD
+========================= */
+
 createTeams();
 
 buildTeamList();
+
+updateFixturesTab();
 
 </script>
 
